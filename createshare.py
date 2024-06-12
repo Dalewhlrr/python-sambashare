@@ -37,7 +37,7 @@ def setup_samba_share(share_name, share_path):
     subprocess.run(['sudo', 'systemctl', 'restart', 'smbd'], check=True)
 
     # Change the group permission so anyone can access it
-    subprocess.run(['sudo', 'chmod', 'r', '777', share_path], check=True)
+    subprocess.run(['sudo', 'chmod', '-R', '777', share_path], check=True)
     print(f"Samba share '{share_name}' setup successfully at '{share_path}'.")
 
 def prompt_for_share_details():
