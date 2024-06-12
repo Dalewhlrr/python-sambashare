@@ -23,6 +23,8 @@ def setup_samba_share(share_name, share_path):
    public = yes
    writable = yes
    guest ok = yes
+   create mask = 0777
+   directory mask = 0777
 """
 
     with open('smb.conf.tmp', 'w') as temp_conf:
@@ -36,9 +38,8 @@ def setup_samba_share(share_name, share_path):
     # Restart Samba to apply changes
     subprocess.run(['sudo', 'systemctl', 'restart', 'smbd'], check=True)
 
-    # Change the group permission so anyone can access it
-    subprocess.run(['sudo', 'chmod', '-R', '777', share_path], check=True)
     print(f"Samba share '{share_name}' setup successfully at '{share_path}'.")
+
 
 def prompt_for_share_details():
     share_name = input("Enter the name for the Samba share: ")
