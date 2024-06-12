@@ -23,10 +23,6 @@ def setup_samba_share(share_name, share_path):
    public = yes
    writable = yes
    guest ok = yes
-   create mask = 0777
-   directory mask = 0777
-   force create mode = 0777
-   force directory mode = 0777
 """
 
     with open('smb.conf.tmp', 'w') as temp_conf:
@@ -40,6 +36,9 @@ def setup_samba_share(share_name, share_path):
     # Restart Samba to apply changes
     subprocess.run(['sudo', 'systemctl', 'restart', 'smbd'], check=True)
 
+    # Set the permissions for the share directory
+    os.chmod(share_path, 0o777)
+
     print(f"Samba share '{share_name}' setup successfully at '{share_path}'.")
 
 
@@ -49,7 +48,8 @@ def prompt_for_share_details():
 
     if not os.path.exists(share_path):
         os.makedirs(share_path)
-        print(f"Directory '{share_path}' created.")
+        os.chmod(share_path, 0o777)
+        print(f"Directory '{share_path}' created with permissions set to 777.")
 
     return share_name, share_path
 
