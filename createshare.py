@@ -25,6 +25,8 @@ def setup_samba_share(share_name, share_path):
    guest ok = yes
    create mask = 0777
    directory mask = 0777
+   force create mode = 0777
+   force directory mode = 0777
 """
 
     with open('smb.conf.tmp', 'w') as temp_conf:
